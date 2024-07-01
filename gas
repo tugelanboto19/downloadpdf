@@ -7,8 +7,7 @@ const getOwnerAndBuildingInfo = () => {
         jenisKonsultasi: '',
         namaPemilik: '',
         alamatPemilik: '',
-        lokasiBangunan: '',
-        dataBangunan: ''
+        lokasiBangunan: ''
     };
 
     const labelElements = document.querySelectorAll('.control-label.col-md-3');
@@ -16,33 +15,27 @@ const getOwnerAndBuildingInfo = () => {
         const text = label.textContent.trim();
         switch (text) {
             case 'Jenis Konsultasi':
-                const jenisKonsultasiDiv = label.nextElementSibling;
+                const jenisKonsultasiDiv = label.nextElementSibling.querySelector('.form-control-static');
                 if (jenisKonsultasiDiv) {
                     info.jenisKonsultasi = jenisKonsultasiDiv.textContent.trim();
                 }
                 break;
             case 'Nama Pemilik':
-                const namaPemilikDiv = label.nextElementSibling;
+                const namaPemilikDiv = label.nextElementSibling.querySelector('.form-control-static');
                 if (namaPemilikDiv) {
                     info.namaPemilik = namaPemilikDiv.textContent.trim();
                 }
                 break;
             case 'Alamat Pemilik Bangunan':
-                const alamatPemilikDiv = label.nextElementSibling;
+                const alamatPemilikDiv = label.nextElementSibling.querySelector('.form-control-static');
                 if (alamatPemilikDiv) {
                     info.alamatPemilik = alamatPemilikDiv.textContent.trim();
                 }
                 break;
             case 'Lokasi Bangunan Gedung':
-                const lokasiBangunanDiv = label.nextElementSibling;
+                const lokasiBangunanDiv = label.nextElementSibling.querySelector('.form-control-static');
                 if (lokasiBangunanDiv) {
                     info.lokasiBangunan = lokasiBangunanDiv.textContent.trim();
-                }
-                break;
-            case 'Data Bangunan :':
-                const dataBangunanDiv = label.nextElementSibling;
-                if (dataBangunanDiv) {
-                    info.dataBangunan = dataBangunanDiv.textContent.trim();
                 }
                 break;
             default:
@@ -70,8 +63,8 @@ const downloadPDFs = async () => {
                 // Buat URL objek dari Blob
                 const url = URL.createObjectURL(blob);
 
-                // Buat nama file dengan format jenisKonsultasi_namaPemilik_alamatBangunan_dataBangunan.pdf
-                let fullFilename = `${ownerInfo.jenisKonsultasi}_${ownerInfo.namaPemilik}_${ownerInfo.alamatPemilik}_${ownerInfo.dataBangunan}.pdf`;
+                // Buat nama file dengan format jenisKonsultasi_namaPemilik_alamatBangunan.pdf
+                let fullFilename = `${ownerInfo.jenisKonsultasi}_${ownerInfo.namaPemilik}_${ownerInfo.alamatPemilik}.pdf`;
 
                 // Hapus karakter khusus yang tidak diizinkan dalam nama file
                 fullFilename = fullFilename.replace(/[\\/:*?"<>|]/g, '_');
@@ -93,6 +86,9 @@ const downloadPDFs = async () => {
             }
         }
     }
+    
+    // Tampilkan popup setelah semua unduhan selesai
+    alert('Semua file PDF telah selesai diunduh.');
 };
 
 // Panggil fungsi untuk mengunduh semua PDF
