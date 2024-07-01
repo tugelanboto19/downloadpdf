@@ -1,0 +1,39 @@
+// Ambil semua elemen <a> dengan class open-PDFViewer
+const elements = document.querySelectorAll('a.open-PDFViewer');
+
+// Buat sebuah fungsi untuk mengunduh setiap PDF
+const downloadPDFs = async () => {
+    for (let i = 0; i < elements.length; i++) {
+        const element = elements[i];
+        const dataId = element.getAttribute('data-id');
+        
+        if (dataId) {
+            try {
+                // Ambil file PDF menggunakan fetch
+                const response = await fetch(dataId);
+                const blob = await response.blob();
+
+                // Buat URL objek dari Blob
+                const url = URL.createObjectURL(blob);
+
+                // Buat elemen <a> baru untuk mengunduh PDF
+                const downloadLink = document.createElement('a');
+                downloadLink.href = url;
+                downloadLink.download = `document_${i + 1}.pdf`; // Nama file untuk diunduh
+                downloadLink.style.display = 'none';
+                document.body.appendChild(downloadLink);
+
+                // Klik secara otomatis pada tautan unduhan untuk memulai unduhan
+                downloadLink.click();
+
+                // Hapus elemen <a> setelah unduhan selesai
+                document.body.removeChild(downloadLink);
+            } catch (error) {
+                console.error('Error downloading PDF:', error);
+            }
+        }
+    }
+};
+
+// Panggil fungsi untuk mengunduh semua PDF
+downloadPDFs();
