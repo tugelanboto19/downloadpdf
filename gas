@@ -70,11 +70,8 @@ const downloadPDFs = async () => {
                 // Buat URL objek dari Blob
                 const url = URL.createObjectURL(blob);
 
-                // Dapatkan nama file dari URL data-id
-                const filename = dataId.substring(dataId.lastIndexOf('/') + 1);
-
-                // Buat nama file dengan menambahkan informasi pemilik dan bangunan
-                let fullFilename = `${ownerInfo.namaPemilik}_${ownerInfo.jenisKonsultasi}_${ownerInfo.lokasiBangunan}_${filename}`;
+                // Buat nama file dengan format jenisKonsultasi_namaPemilik_alamatBangunan_dataBangunan.pdf
+                let fullFilename = `${ownerInfo.jenisKonsultasi}_${ownerInfo.namaPemilik}_${ownerInfo.alamatPemilik}_${ownerInfo.dataBangunan}.pdf`;
 
                 // Hapus karakter khusus yang tidak diizinkan dalam nama file
                 fullFilename = fullFilename.replace(/[\\/:*?"<>|]/g, '_');
