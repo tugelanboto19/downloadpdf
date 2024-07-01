@@ -46,6 +46,18 @@ const getOwnerAndBuildingInfo = () => {
     return info;
 };
 
+// Fungsi untuk mendapatkan teks tambahan dari elemen <tr>
+const getAdditionalInfo = (element) => {
+    const trElement = element.closest('tr');
+    if (trElement) {
+        const tdElements = trElement.querySelectorAll('td');
+        if (tdElements.length > 1) {
+            return tdElements[1].textContent.trim();
+        }
+    }
+    return '';
+};
+
 // Buat sebuah fungsi untuk mengunduh setiap PDF
 const downloadPDFs = async () => {
     const ownerInfo = getOwnerAndBuildingInfo(); // Dapatkan informasi pemilik dan bangunan
@@ -63,8 +75,11 @@ const downloadPDFs = async () => {
                 // Buat URL objek dari Blob
                 const url = URL.createObjectURL(blob);
 
-                // Buat nama file dengan format jenisKonsultasi_namaPemilik_alamatBangunan.pdf
-                let fullFilename = `${ownerInfo.jenisKonsultasi}_${ownerInfo.namaPemilik}_${ownerInfo.alamatPemilik}.pdf`;
+                // Dapatkan informasi tambahan dari elemen <tr>
+                const additionalInfo = getAdditionalInfo(element);
+
+                // Buat nama file dengan format jenisKonsultasi_namaPemilik_alamatBangunan_additionalInfo.pdf
+                let fullFilename = `${ownerInfo.jenisKonsultasi}_${ownerInfo.namaPemilik}_${ownerInfo.alamatPemilik}_${additionalInfo}.pdf`;
 
                 // Hapus karakter khusus yang tidak diizinkan dalam nama file
                 fullFilename = fullFilename.replace(/[\\/:*?"<>|]/g, '_');
@@ -86,7 +101,7 @@ const downloadPDFs = async () => {
             }
         }
     }
-    
+
     // Tampilkan popup setelah semua unduhan selesai
     alert('Semua file PDF telah selesai diunduh.');
 };
