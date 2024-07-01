@@ -16,10 +16,13 @@ const downloadPDFs = async () => {
                 // Buat URL objek dari Blob
                 const url = URL.createObjectURL(blob);
 
+                // Dapatkan nama file dari URL data-id
+                const filename = dataId.substring(dataId.lastIndexOf('/') + 1);
+
                 // Buat elemen <a> baru untuk mengunduh PDF
                 const downloadLink = document.createElement('a');
                 downloadLink.href = url;
-                downloadLink.download = `document_${i + 1}.pdf`; // Nama file untuk diunduh
+                downloadLink.download = `${filename}.pdf`; // Nama file untuk diunduh
                 downloadLink.style.display = 'none';
                 document.body.appendChild(downloadLink);
 
